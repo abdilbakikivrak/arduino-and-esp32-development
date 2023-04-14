@@ -10,8 +10,8 @@ DHT dht( DHTPIN, DHTTYPE);
 long sonMsg = 0;
 
 // WiFi Tanımlamaları
-const char* wifi_id = "CayirManyaklariEngineering";
-const char* sifre = "t0LnxrGV";
+const char* wifi_id = "**********";// WİFİ SSİD
+const char* sifre = "**********";// SSİD PSSWRD
 const char* mqtt_sunucu = "127.0.0.1:1880";
 
 // WiFi ve PubSubClient Ataması
