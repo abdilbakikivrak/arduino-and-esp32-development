@@ -1,10 +1,5 @@
 
-/*
-* MQTT and AskSensors IoT Platform
-* Description: ESP32 publishes NEO-6M GPS position to AskSensors using MQTT
-* Author: https://asksensors.com, 2020
-* github: https://github.com/asksensors
-*/
+
 
 #include <WiFi.h>
 #include <PubSubClient.h>
@@ -13,10 +8,10 @@
 #include <TinyGPS++.h>
 
 //TODO: ESP32 MQTT user config
-const char* ssid = "kivrak_system"; // Wifi SSID
-const char* password = "adminkivrak"; // Wifi Password
-const char* username = "adminkivrak1"; // my AskSensors username
-const char* pubTopic = "publish/adminkivrak1/EZ2XWSVd2e7hOF2ynOTgR5uwGl2aMO1Y/Module1"; // publish/username/apiKeyIn<<<<-------
+const char* ssid = "************"; // Wifi SSID
+const char* password = "********"; // Wifi Password
+const char* username = "*******"; // my AskSensors username
+const char* pubTopic = "publish/**********/EZ2XWSVd2e7hOF2ynOTgR5uwGl2aMO1Y/Module1"; // publish/username/apiKeyIn<<<<-------
 const unsigned int writeInterval = 25000; // write interval (in ms)
 
 static const int RXPin = 16, TXPin = 17;
