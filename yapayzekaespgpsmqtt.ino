@@ -4,14 +4,14 @@
 #include <TinyGPS++.h>
 
 // WiFi credentials
-const char* ssid = "kivrak_system";
-const char* password = "adminkivrak";
+const char* ssid = "*************";
+const char* password = "**************";
 
 // MQTT server credentials
 const char* mqtt_server = "mqtt.asksensors.com";// const char* mqtt_server = "mqtt.asksensors.com";
 const int mqtt_port = 1883;
-const char* mqtt_user = "adminkivrak1";
-const char* mqtt_password = "53bkEaSSa11";
+const char* mqtt_user = "***************";
+const char* mqtt_password = "**************";
 
 // AskSensors API KEY IN
 const char* apiKeyIn = "SpfL86SJ3NzgYXCqrEUSYor1b49EBZ84";
