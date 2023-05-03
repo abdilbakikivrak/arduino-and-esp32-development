@@ -2,13 +2,13 @@
 #include <PubSubClient.h>
 
 //TODO: ESP32 MQTT user config
-const char* ssid = "kivrak_system"; // Wifi SSID
-const char* password = "adminkivrak"; // Wifi Password
-const char* username = "adminkivrak1"; // my AskSensors username
+const char* ssid = "kivrak_system"; // Wifi ID
+const char* password = "adminkivrak"; // Wifi şifre
+const char* username = "adminkivrak1"; //  username
 const char* subTopic = "actuator/adminkivrak1/Fj5dv7xKXOtMLr2i7gEkpMW8n43yjiZw"; // actuator/username/apiKeyOut
-const int LED_pin = 2; // LEd pin
+//const int LED_pin = 2; // LEd pin
+#define LED_pin 22
 
-//AskSensors MQTT config
 const char* mqtt_server = "mqtt.asksensors.com";
 unsigned int mqtt_port = 1883;
 
@@ -18,11 +18,11 @@ PubSubClient client(askClient);
 void setup() {
 Serial.begin(115200);
 Serial.println("*****************************************************");
-Serial.println("********** Program Start : ESP32 controls LED with AskSensors over MQTT");
-Serial.println("Set LED as output");
-pinMode(LED_pin, OUTPUT); // set led as output
+Serial.println("********** Program Başlatma : ESP32, MQTT üzerinden AskSensors ile LED'i kontrol et");
+Serial.println("LED'i çıkış olarak ayarla");
+pinMode(LED_pin, OUTPUT); // led çıkısı ayarla 
 
-Serial.print("********** connecting to WIFI : ");
+Serial.print("**********  WIFI ye baglaniyor: ");
 Serial.println(ssid);
 
 WiFi.begin(ssid, password);
@@ -32,8 +32,8 @@ delay(500);
 Serial.print(".");
 }
 Serial.println("");
-Serial.println("->WiFi connected");
-Serial.println("->IP address: ");
+Serial.println("->WiFi Baglandii ");
+Serial.println("->IP adresi: ");
 Serial.println(WiFi.localIP());
 
 client.setServer(mqtt_server, mqtt_port);
@@ -41,9 +41,9 @@ client.setCallback(callback);
 
 if (!client.connected()) 
 reconnect();
-Serial.print("********** Subscribe to AskSensors actuator topic:");
+Serial.print("********** AskSensors aktüatör konusuna abone olun:");
 Serial.print(subTopic);
-// susbscribe
+// üyelik
 client.subscribe(subTopic);
 }
 
@@ -54,25 +54,28 @@ client.loop();
 
 void callback(char* topic, byte* payload, unsigned int length) {
 
-Serial.print("Command teceived from AskSensors[");
+Serial.print("AskSensors'tan alınan komut[");
 Serial.print(topic);
 Serial.print("] ");
 for (int i = 0; i < length; i++) {
 Serial.print((char)payload[i]);
 }
 
-Serial.println("********** Parse Actuator command");
-/*
-if(strcmp((char *)payload, (char*) "module1=1" )== 0){ 
-  String command = String((char*)payload);  
-digitalWrite(LED_pin, command.toInt());
-Serial.println("LED is ON");
+Serial.println("********** gelen komutu ayristir ");
 
-} else{
-digitalWrite(LED_pin,command.toInt());
-Serial.println("LED is OFF");
+String command = String((char*)payload); 
+
+if(command == "module1=1"){ 
+  
+digitalWrite(LED_pin, HIGH); 
+Serial.println("LED Acik");
+
+} else  {
+
+digitalWrite(LED_pin, LOW); // 
+Serial.println("LED Kapali");
 }
-}*/
+} /*
   String command = String((char*)payload); // add this line
   
   digitalWrite(LED_pin, !command.toInt());
@@ -83,20 +86,20 @@ Serial.println("LED is OFF");
   else{
     Serial.println("LED is OFF");
   }
-}
+} */
 
 void reconnect() {
-// Loop until we're reconnected
+//  yenidenbaglan
 while (!client.connected()) {
-Serial.print("********** Attempting MQTT connection...");
-// Attempt to connect
+Serial.print("********** MQTT bağlantisi deneniyor...");
+
 if (client.connect("ESP32Client", username, "")) { 
-Serial.println("-> MQTT client connected");
+Serial.println("-> MQTT istemcisi baglandi");
 } else {
 Serial.print("failed, rc=");
 Serial.print(client.state());
-Serial.println("-> try again in 5 seconds");
-// Wait 5 seconds before retrying
+Serial.println("-> bes saniyede tekrar dene");
+// 5 sn bekle 
 delay(5000);
 }
 }
