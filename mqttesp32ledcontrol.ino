@@ -2,10 +2,10 @@
 #include <PubSubClient.h>
 
 //TODO: ESP32 MQTT user config
-const char* ssid = "kivrak_system"; // Wifi ID
-const char* password = "adminkivrak"; // Wifi şifre
-const char* username = "adminkivrak1"; //  username
-const char* subTopic = "actuator/adminkivrak1/Fj5dv7xKXOtMLr2i7gEkpMW8n43yjiZw"; // actuator/username/apiKeyOut
+const char* ssid = "******************"; // Wifi ID
+const char* password = "************"; // Wifi şifre
+const char* username = "***********"; //  username
+const char* subTopic = "actuator/**************/*********************"; // actuator/username/apiKeyOut
 //const int LED_pin = 2; // LEd pin
 #define LED_pin 22
 
