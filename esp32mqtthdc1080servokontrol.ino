@@ -1,8 +1,10 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>
-#include <Servo.h>
-#include "ClosedCube_HDC1080.h"
+#include <ESP32Servo.h>
+//#include "ClosedCube_HDC1080.h"
+#include <Adafruit_HDC1000.h>
+#include <Adafruit_Sensor.h>
 
 // WiFi network credentials
 const char* ssid = "your-ssid";
@@ -31,7 +33,13 @@ PubSubClient client(espClient);
 
 // Servo motor and hdc1080 sensor objects
 Servo servoMotor;
-ClosedCube_HDC1080 hdc1080;
+//ClosedCube_HDC1080 hdc1080;
+Adafruit_HDC1000 hdc = Adafruit_HDC1000();  // hdc1080  sensörü
+float temperature; // Sıcaklık değişkeni
+float humidity; // Nem değişkeni
+float temp = hdc.readTemperature(); // Bu satır
+float hum = hdc.readHumidity(); // Bu satır
+
 
 // Function to connect to WiFi network
 void setup_wifi() {
@@ -110,7 +118,7 @@ void setup() {
   Serial.begin(9600);
 
   // Initialize hdc1080 sensor
-  hdc1080.begin(0x40);
+  hdc.begin(0x40);
 
   // Initialize servo motor
   servoMotor.attach(SERVO_PIN);
@@ -132,22 +140,22 @@ void loop() {
   client.loop();
 
   // Read temperature and humidity from sensor
-  float temperature = hdc1080.readTemperature();
-  float humidity = hdc1080.readHumidity();
+  //float temperature = hdc1080.readTemperature();
+  //float humidity = hdc1080.readHumidity();
 
   // Print values to serial monitor
   Serial.print("T=");
-  Serial.print(temperature);
+  Serial.print(temp); //Serial.print(temperature);
   Serial.print("C, RH=");
-  Serial.print(humidity);
+  Serial.print(hum);//Serial.print(humidity);
   Serial.println("%");
 
   // Publish values to MQTT topics
-  client.publish(temp_topic, String(temperature).c_str());
-  client.publish(hum_topic, String(humidity).c_str());
+  client.publish(temp_topic, String(temp).c_str());
+  client.publish(hum_topic, String(hum).c_str());
 
   // Check if temperature is above threshold
-  if (temperature > TEMP_THRESHOLD) {
+  if (temp > TEMP_THRESHOLD) {
     // Publish "on" message to servo topic
     client.publish(servo_topic, "on");
     Serial.println("Servo motor activated");
